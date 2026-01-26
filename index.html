@@ -1,1 +1,44 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mio Hub Culturale</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <div class="container">
+        <header>
+            <h1>🧠 Brain Dump</h1>
+            <p>Incolla qui link, libri, musica o appunti...</p>
+        </header>
+
+        <div class="input-card">
+            <textarea id="userInput" placeholder="Esempio: Libro 'Il nome della rosa' di Umberto Eco..."></textarea>
+            <button id="btnSalva" onclick="gestisciInvio()">Organizza con AI</button>
+        </div>
+
+        <div class="grid-board">
+            <div class="column" id="col-musica">
+                <h3>🎸 Musica</h3>
+                <div class="lista" id="list-musica"></div>
+            </div>
+            <div class="column" id="col-libri">
+                <h3>📚 Libri & Arte</h3>
+                <div class="lista" id="list-libri"></div>
+            </div>
+            <div class="column" id="col-luoghi">
+                <h3>🏛️ Luoghi & Musei</h3>
+                <div class="lista" id="list-luoghi"></div>
+            </div>
+            <div class="column" id="col-extra">
+                <h3>🏷️ Altro / Tutorial</h3>
+                <div class="lista" id="list-extra"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
