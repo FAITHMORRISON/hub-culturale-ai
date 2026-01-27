@@ -3,66 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mio Hub Culturale</title>
+    <title>Hub Culturale AI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --bg: #f0f2f5; --card: #ffffff; --text: #2d3436;
-            --primary: #6c5ce7; --secondary: #a29bfe;
+            --bg: #f4f7f6;
+            --card: #ffffff;
+            --text: #2d3436;
+            --primary: #6c5ce7;
+            --accent: #a29bfe;
+            --border: #dfe6e9;
         }
+
         .dark-mode {
-            --bg: #1a1a1a; --card: #2d2d2d; --text: #f5f6fa;
+            --bg: #121212;
+            --card: #1e1e1e;
+            --text: #f5f6fa;
             --primary: #a29bfe;
+            --border: #333;
         }
 
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); transition: 0.3s; margin: 0; padding: 15px; overflow-x: hidden; }
-        .container { max-width: 500px; margin: auto; }
-
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .dark-toggle { cursor: pointer; font-size: 20px; color: var(--primary); }
-
-        .input-card { background: var(--card); padding: 15px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); margin-bottom: 25px; }
-        textarea { width: 100%; height: 100px; background: transparent; color: var(--text); border: 1px solid #ddd; border-radius: 10px; padding: 12px; box-sizing: border-box; resize: none; font-size: 16px; outline: none; }
-        .input-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-        #charCount { font-size: 12px; color: #636e72; }
-
-        button#btnSalva { 
-            padding: 12px 20px; background: var(--primary); color: white; border: none; 
-            border-radius: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 16px;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 15px;
+            transition: all 0.3s ease;
         }
 
-        .spinner { display: none; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .container { max-width: 500px; margin: 0 auto; }
 
-        /* Accordion */
-        .acc-item { background: var(--card); margin-bottom: 12px; border-radius: 12px; overflow: hidden; border-left: 6px solid var(--c); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .acc-header { width: 100%; padding: 18px; display: flex; justify-content: space-between; align-items: center; background: none; border: none; cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text); }
-        .acc-content { display: none; padding: 0 15px 15px 15px; background: rgba(0,0,0,0.01); }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-top: 10px;
+        }
+
+        header h1 { margin: 0; font-size: 22px; letter-spacing: -1px; }
+        #status { font-size: 10px; font-weight: bold; text-transform: uppercase; color: var(--primary); }
+
+        .dark-toggle {
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--card);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Input Card */
+        .input-card {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            background: transparent;
+            color: var(--text);
+            border: none;
+            padding: 5px;
+            font-size: 16px;
+            resize: none;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .input-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+            border-top: 1px solid var(--border);
+            padding-top: 10px;
+        }
+
+        button#btnSalva {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s;
+        }
+
+        button#btnSalva:active { transform: scale(0.95); }
+
+        /* Accordion Style */
+        .acc-item {
+            background: var(--card);
+            margin-bottom: 12px;
+            border-radius: 15px;
+            overflow: hidden;
+            border-left: 6px solid var(--cat-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .acc-header {
+            width: 100%;
+            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .acc-header i.main-icon { color: var(--cat-color); font-size: 18px; margin-right: 10px; }
+
+        .acc-content {
+            display: none;
+            padding: 0 15px 15px 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
         .acc-content.active { display: block; }
 
-        /* Note */
-        .item-nota { background: var(--bg); padding: 12px; border-radius: 10px; margin-top: 10px; position: relative; border: 1px solid rgba(0,0,0,0.05); word-wrap: break-word; }
-        .item-actions { display: flex; gap: 15px; margin-top: 10px; justify-content: flex-end; align-items: center; }
-        .action-btn { background: none; border: none; cursor: pointer; font-size: 16px; color: #636e72; }
-        .item-date { font-size: 10px; opacity: 0.6; flex-grow: 1; }
+        /* Note Items */
+        .item-nota {
+            background: var(--bg);
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
 
-        #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #2d3436; color: white; padding: 12px 25px; border-radius: 30px; display: none; font-size: 14px; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .item-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #636e72;
+            cursor: pointer;
+            font-size: 15px;
+            padding: 5px;
+        }
+
+        .btn-del:hover { color: #e74c3c; }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2d3436;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            display: none;
+            z-index: 1000;
+            font-size: 14px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
-<body>
+<body onload="caricaDati()">
 
-    <div id="toast">Messaggio</div>
+    <div id="toast"></div>
 
     <div class="container">
         <header>
             <h1>🧠 Hub Culturale</h1>
-            <div class="dark-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></div>
+            <span id="status">Sync...</span>
+            <div class="dark-toggle" onclick="toggleDarkMode()">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </div>
         </header>
 
         <div class="input-card">
-            <textarea id="userInput" oninput="updateCharCount()" placeholder="Incolla link o scrivi..."></textarea>
+            <textarea id="userInput" placeholder="Incolla link o scrivi un pensiero..."></textarea>
             <div class="input-footer">
-                <span id="charCount">Caratteri: 0</span>
                 <button id="btnSalva" onclick="gestisciInvio()">
                     <div class="spinner" id="spinner"></div>
                     <span id="btnText"><i class="fas fa-magic"></i> Organizza</span>
@@ -71,24 +229,43 @@
         </div>
 
         <div class="accordion-container">
-            <div class="acc-item" style="--c: #3498db;">
-                <button class="acc-header" onclick="toggleAcc('list-musica')"><span><i class="fas fa-music"></i> Musica</span><i class="fas fa-chevron-down"></i></button>
+            <div class="acc-item" style="--cat-color: #3498db;">
+                <button class="acc-header" onclick="toggleAcc('list-musica')">
+                    <span><i class="fas fa-music main-icon"></i> Musica</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
                 <div class="acc-content" id="list-musica"></div>
             </div>
-            <div class="acc-item" style="--c: #e67e22;">
-                <button class="acc-header" onclick="toggleAcc('list-libri')"><span><i class="fas fa-book"></i> Libri</span><i class="fas fa-chevron-down"></i></button>
+
+            <div class="acc-item" style="--cat-color: #e67e22;">
+                <button class="acc-header" onclick="toggleAcc('list-libri')">
+                    <span><i class="fas fa-book main-icon"></i> Libri</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
                 <div class="acc-content" id="list-libri"></div>
             </div>
-            <div class="acc-item" style="--c: #9b59b6;">
-                <button class="acc-header" onclick="toggleAcc('list-arte')"><span><i class="fas fa-palette"></i> Arte & Ref</span><i class="fas fa-chevron-down"></i></button>
+
+            <div class="acc-item" style="--cat-color: #9b59b6;">
+                <button class="acc-header" onclick="toggleAcc('list-arte')">
+                    <span><i class="fas fa-palette main-icon"></i> Arte & Ref</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
                 <div class="acc-content" id="list-arte"></div>
             </div>
-            <div class="acc-item" style="--c: #2ecc71;">
-                <button class="acc-header" onclick="toggleAcc('list-tutorial')"><span><i class="fas fa-lightbulb"></i> Tutorial</span><i class="fas fa-chevron-down"></i></button>
+
+            <div class="acc-item" style="--cat-color: #2ecc71;">
+                <button class="acc-header" onclick="toggleAcc('list-tutorial')">
+                    <span><i class="fas fa-lightbulb main-icon"></i> Tutorial</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
                 <div class="acc-content" id="list-tutorial"></div>
             </div>
-            <div class="acc-item" style="--c: #95a5a6;">
-                <button class="acc-header" onclick="toggleAcc('list-extra')"><span><i class="fas fa-folder"></i> Altro</span><i class="fas fa-chevron-down"></i></button>
+
+            <div class="acc-item" style="--cat-color: #95a5a6;">
+                <button class="acc-header" onclick="toggleAcc('list-extra')">
+                    <span><i class="fas fa-folder-open main-icon"></i> Altro</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
                 <div class="acc-content" id="list-extra"></div>
             </div>
         </div>
@@ -99,63 +276,78 @@
 
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
-            const icon = document.querySelector('.dark-toggle i');
-            icon.classList.toggle('fa-moon'); icon.classList.toggle('fa-sun');
+            const icon = document.getElementById('theme-icon');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
         }
 
-        function updateCharCount() {
-            document.getElementById('charCount').textContent = `Caratteri: ${document.getElementById('userInput').value.length}`;
+        function toggleAcc(id) {
+            document.getElementById(id).classList.toggle('active');
         }
-
-        function toggleAcc(id) { document.getElementById(id).classList.toggle('active'); }
 
         function showToast(msg) {
             const t = document.getElementById('toast');
-            t.textContent = msg; t.style.display = 'block';
+            t.textContent = msg;
+            t.style.display = 'block';
             setTimeout(() => t.style.display = 'none', 2500);
         }
 
+        // CARICAMENTO DATI
+        async function caricaDati() {
+            document.getElementById('status').textContent = "Sync...";
+            try {
+                const response = await fetch(WEB_APP_URL);
+                const dati = await response.json();
+                
+                // Pulisci liste
+                document.querySelectorAll('.acc-content').forEach(el => el.innerHTML = "");
+                
+                // Popola liste (al contrario per vedere gli ultimi sopra)
+                dati.reverse().forEach(nota => {
+                    mostraNotaInPagina(nota.testo, nota.categoria, nota.id);
+                });
+                
+                document.getElementById('status').textContent = "Sincronizzato";
+            } catch (e) {
+                document.getElementById('status').textContent = "Offline";
+                console.error(e);
+            }
+        }
+
+        // INVIO DATI
         async function gestisciInvio() {
             const area = document.getElementById('userInput');
             const testo = area.value.trim();
             if(!testo) return;
 
-            // UI Loading
             document.getElementById('spinner').style.display = 'block';
             document.getElementById('btnText').style.display = 'none';
             document.getElementById('btnSalva').disabled = true;
 
-            // Smistamento Categorie Temporaneo (In attesa dell'AI)
+            // Logica categorie (provvisoria senza AI)
             let cat = "extra";
             const t = testo.toLowerCase();
             if(t.includes("tutorial") || t.includes("come")) cat = "tutorial";
-            else if(t.includes("musica") || t.includes("canzone")) cat = "musica";
-            else if(t.includes("libro") || t.includes("autore")) cat = "libri";
-            else if(t.includes("arte") || t.includes("mostra")) cat = "arte";
-
-            const payload = {
-                testo: testo,
-                categoria: cat,
-                note_ai: "Salvataggio manuale"
-            };
+            else if(t.includes("musica") || t.includes("canzone") || t.includes("band")) cat = "musica";
+            else if(t.includes("libro") || t.includes("autore") || t.includes("leggere")) cat = "libri";
+            else if(t.includes("arte") || t.includes("museo") || t.includes("dipinto")) cat = "arte";
 
             try {
-                // INVIO AL DATABASE GOOGLE
                 await fetch(WEB_APP_URL, {
                     method: "POST",
                     mode: "no-cors",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({ action: 'insert', testo: testo, categoria: cat })
                 });
-
-                // Se arriviamo qui, l'invio è partito
-                aggiungiNotaAFVideo(testo, cat);
+                
                 area.value = "";
-                updateCharCount();
-                showToast("✅ Salvato nel Database!");
-            } catch (error) {
-                showToast("❌ Errore di connessione");
-                console.error(error);
+                showToast("✅ Salvato nel cloud!");
+                // Ricarica dopo un secondo per vedere la nota con l'ID corretto
+                setTimeout(caricaDati, 1500);
+            } catch (e) {
+                showToast("❌ Errore salvataggio");
             } finally {
                 document.getElementById('spinner').style.display = 'none';
                 document.getElementById('btnText').style.display = 'block';
@@ -163,20 +355,40 @@
             }
         }
 
-        function aggiungiNotaAFVideo(testo, cat) {
-            const lista = document.getElementById('list-' + cat);
-            const data = new Date().toLocaleString('it-IT', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'});
+        // ELIMINAZIONE
+        async function eliminaNota(id, btn) {
+            if(!confirm("Vuoi cancellare questa nota per sempre dal database?")) return;
+            
+            showToast("Eliminazione...");
+            try {
+                await fetch(WEB_APP_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    body: JSON.stringify({ action: 'delete', id: id })
+                });
+                btn.closest('.item-nota').remove();
+                showToast("Cancellata!");
+            } catch (e) {
+                showToast("Errore eliminazione");
+            }
+        }
+
+        function mostraNotaInPagina(testo, cat, id) {
+            const lista = document.getElementById('list-' + cat) || document.getElementById('list-extra');
             const div = document.createElement('div');
             div.className = 'item-nota';
             div.innerHTML = `
                 <div>${testo}</div>
                 <div class="item-actions">
-                    <span class="item-date">${data}</span>
-                    <button class="action-btn" onclick="navigator.clipboard.writeText('${testo.replace(/'/g, "\\'")}'); showToast('Copiato!')"><i class="fas fa-copy"></i></button>
+                    <button class="action-btn" onclick="navigator.clipboard.writeText('${testo.replace(/'/g, "\\'")}'); showToast('Copiato!')">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button class="action-btn btn-del" onclick="eliminaNota(${id}, this)">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
             `;
-            lista.prepend(div);
-            lista.classList.add('active');
+            lista.appendChild(div);
         }
     </script>
 </body>
