@@ -1,86 +1,26 @@
-body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 20px;
-    color: #2d3436;
-}
+:root { --bg: #f4f7f6; --text: #2d3436; }
 
-.container {
-    max-width: 1100px;
-    margin: auto;
-}
+body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 15px; }
+.container { max-width: 600px; margin: auto; }
 
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
+header { text-align: center; margin-bottom: 20px; }
+#status { font-size: 12px; color: #636e72; margin-top: 5px; }
 
-.input-card {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    margin-bottom: 40px;
-}
+.input-card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); margin-bottom: 25px; }
+textarea { width: 100%; height: 80px; border: 1px solid #ddd; border-radius: 10px; padding: 12px; font-size: 15px; box-sizing: border-box; resize: none; }
 
-textarea {
-    width: 100%;
-    height: 100px;
-    border: 2px solid #edf2f7;
-    border-radius: 10px;
-    padding: 15px;
-    font-size: 16px;
-    box-sizing: border-box;
-    resize: none;
-    margin-bottom: 10px;
-}
+button#btnSalva { width: 100%; margin-top: 10px; padding: 12px; background: #6c5ce7; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
-button {
-    width: 100%;
-    padding: 15px;
-    background-color: #6c5ce7;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
+/* Accordion Style */
+.acc-item { background: white; margin-bottom: 10px; border-radius: 10px; overflow: hidden; border-left: 5px solid var(--color); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.acc-header { width: 100%; padding: 15px; display: flex; justify-content: space-between; align-items: center; background: none; border: none; cursor: pointer; font-size: 16px; font-weight: 600; color: #2d3436; }
+.acc-header i { color: var(--color); }
 
-button:hover {
-    background-color: #a29bfe;
-}
+.acc-content { display: none; padding: 10px 15px; background: #fafafa; border-top: 1px solid #eee; }
+.acc-content.active { display: block; }
 
-.grid-board {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-}
+/* Note stilizzate */
+.item-nota { background: white; padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #eee; font-size: 14px; position: relative; animation: slideIn 0.3s ease; }
+.item-date { font-size: 10px; color: #b2bec3; display: block; margin-top: 5px; }
 
-.column {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 15px;
-    min-height: 200px;
-    border-top: 5px solid #6c5ce7;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-}
-
-.column h3 {
-    margin-top: 0;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.item-nota {
-    background: #f1f2f6;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    line-height: 1.4;
-}
+@keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
