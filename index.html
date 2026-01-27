@@ -5,36 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mio Hub Culturale</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
     <div class="container">
         <header>
             <h1>🧠 Brain Dump</h1>
-            <p>Incolla qui link, libri, musica o appunti...</p>
+            <div id="status">Pronto all'uso</div>
         </header>
 
         <div class="input-card">
-            <textarea id="userInput" placeholder="Esempio: Libro 'Il nome della rosa' di Umberto Eco..."></textarea>
-            <button id="btnSalva" onclick="gestisciInvio()">Organizza con AI</button>
+            <textarea id="userInput" placeholder="Incolla link o scrivi appunti... (es. 'tutorial ricetta [link]')"></textarea>
+            <button id="btnSalva" onclick="gestisciInvio()">
+                <i class="fas fa-magic"></i> Organizza con AI
+            </button>
         </div>
 
-        <div class="grid-board">
-            <div class="column" id="col-musica">
-                <h3>🎸 Musica</h3>
-                <div class="lista" id="list-musica"></div>
+        <div class="accordion-container">
+            <div class="acc-item" style="--color: #3498db;">
+                <button class="acc-header" onclick="toggleAccordion('list-musica')">
+                    <span><i class="fas fa-music"></i> Musica & Band</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="acc-content" id="list-musica"></div>
             </div>
-            <div class="column" id="col-libri">
-                <h3>📚 Libri & Arte</h3>
-                <div class="lista" id="list-libri"></div>
+
+            <div class="acc-item" style="--color: #e67e22;">
+                <button class="acc-header" onclick="toggleAccordion('list-libri')">
+                    <span><i class="fas fa-book"></i> Libri & Frasi</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="acc-content" id="list-libri"></div>
             </div>
-            <div class="column" id="col-luoghi">
-                <h3>🏛️ Luoghi & Musei</h3>
-                <div class="lista" id="list-luoghi"></div>
+
+            <div class="acc-item" style="--color: #9b59b6;">
+                <button class="acc-header" onclick="toggleAccordion('list-arte')">
+                    <span><i class="fas fa-palette"></i> Reference Artistiche</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="acc-content" id="list-arte"></div>
             </div>
-            <div class="column" id="col-extra">
-                <h3>🏷️ Altro / Tutorial</h3>
-                <div class="lista" id="list-extra"></div>
+
+            <div class="acc-item" style="--color: #2ecc71;">
+                <button class="acc-header" onclick="toggleAccordion('list-tutorial')">
+                    <span><i class="fas fa-lightbulb"></i> Tutorial & Info</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="acc-content" id="list-tutorial"></div>
+            </div>
+
+            <div class="acc-item" style="--color: #95a5a6;">
+                <button class="acc-header" onclick="toggleAccordion('list-extra')">
+                    <span><i class="fas fa-folder-open"></i> Altro</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="acc-content" id="list-extra"></div>
             </div>
         </div>
     </div>
