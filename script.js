@@ -1,20 +1,58 @@
-function gestisciInvio() {
-    const testo = document.getElementById('userInput').value;
-    if(testo.trim() === "") return;
+// Funzione per aprire e chiudere le sezioni
+function toggleAccordion(id) {
+    const content = document.getElementById(id);
+    const allContents = document.querySelectorAll('.acc-content');
+    
+    // Chiude gli altri se vuoi un effetto pulito (opzionale)
+    // allContents.forEach(c => { if(c.id !== id) c.classList.remove('active'); });
 
-    // Per ora facciamo una prova semplice: se scrivi "musica" va in musica, altrimenti in extra
-    let categoria = "extra";
-    if(testo.toLowerCase().includes("musica")) categoria = "musica";
-    if(testo.toLowerCase().includes("libro")) categoria = "libri";
-
-    aggiungiAFVideo(testo, categoria);
-    document.getElementById('userInput').value = ""; // Pulisce la casella
+    content.classList.toggle('active');
 }
 
-function aggiungiAFVideo(testo, cat) {
+function gestisciInvio() {
+    const areaTesto = document.getElementById('userInput');
+    const testo = areaTesto.value;
+    if(testo.trim() === "") return;
+
+    document.getElementById('status').textContent = "Elaborazione in corso...";
+
+    // Logica temporanea (Prima dell'AI)
+    let categoria = "extra";
+    const t = testo.toLowerCase();
+
+    if(t.includes("tutorial") || t.includes("come fare") || t.includes("istruzioni")) {
+        categoria = "tutorial";
+    } else if(t.includes("musica") || t.includes("canzone") || t.includes("band")) {
+        categoria = "musica";
+    } else if(t.includes("libro") || t.includes("leggere") || t.includes("scrittore")) {
+        categoria = "libri";
+    } else if(t.includes("arte") || t.includes("museo") || t.includes("quadro") || t.includes("mostra")) {
+        categoria = "arte";
+    }
+
+    // Simuliamo un piccolo ritardo "di pensiero"
+    setTimeout(() => {
+        aggiungiNotaAVideo(testo, categoria);
+        areaTesto.value = "";
+        document.getElementById('status').textContent = "Nota salvata!";
+        setTimeout(() => document.getElementById('status').textContent = "Pronto all'uso", 2000);
+    }, 600);
+}
+
+function aggiungiNotaAVideo(testo, cat) {
     const lista = document.getElementById('list-' + cat);
     const div = document.createElement('div');
     div.className = 'item-nota';
-    div.textContent = testo;
-    lista.appendChild(div);
+    
+    const data = new Date().toLocaleString('it-IT', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' });
+    
+    div.innerHTML = `
+        <div>${testo}</div>
+        <span class="item-date">${data}</span>
+    `;
+    
+    lista.prepend(div); // Mette l'ultima nota in alto
+    
+    // Apriamo automaticamente la sezione dove è finita la nota per dare feedback
+    lista.classList.add('active');
 }
