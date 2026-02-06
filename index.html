@@ -272,7 +272,7 @@
     </div>
 
     <script>
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby_0Jr4R2cEhkizfji8dMFhSb-oAv2zvAcy9H5Cy5EUkSANRyYjVEAF0Vq2fkIXSFuaaA/exec";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx9dJVgG1zLPOoDLn7Yn6Mdi796YnBIIgyInsFYTLpWxHe71AkjiKuid75dLRDN2BHIpg/exec";
 
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
@@ -318,42 +318,35 @@
         }
 
         // INVIO DATI
-        async function gestisciInvio() {
-            const area = document.getElementById('userInput');
-            const testo = area.value.trim();
-            if(!testo) return;
+async function gestisciInvio() {
+    const area = document.getElementById('userInput');
+    const testo = area.value.trim();
+    if(!testo) return;
 
-            document.getElementById('spinner').style.display = 'block';
-            document.getElementById('btnText').style.display = 'none';
-            document.getElementById('btnSalva').disabled = true;
+    document.getElementById('spinner').style.display = 'block';
+    document.getElementById('btnText').style.display = 'none';
+    document.getElementById('btnSalva').disabled = true;
 
-            // Logica categorie (provvisoria senza AI)
-            let cat = "extra";
-            const t = testo.toLowerCase();
-            if(t.includes("tutorial") || t.includes("come")) cat = "tutorial";
-            else if(t.includes("musica") || t.includes("canzone") || t.includes("band")) cat = "musica";
-            else if(t.includes("libro") || t.includes("autore") || t.includes("leggere")) cat = "libri";
-            else if(t.includes("arte") || t.includes("museo") || t.includes("dipinto")) cat = "arte";
-
-            try {
-                await fetch(WEB_APP_URL, {
-                    method: "POST",
-                    mode: "no-cors",
-                    body: JSON.stringify({ action: 'insert', testo: testo, categoria: cat })
-                });
-                
-                area.value = "";
-                showToast("✅ Salvato nel cloud!");
-                // Ricarica dopo un secondo per vedere la nota con l'ID corretto
-                setTimeout(caricaDati, 1500);
-            } catch (e) {
-                showToast("❌ Errore salvataggio");
-            } finally {
-                document.getElementById('spinner').style.display = 'none';
-                document.getElementById('btnText').style.display = 'block';
-                document.getElementById('btnSalva').disabled = false;
-            }
-        }
+    try {
+        // Questa riga invia il testo ad Apps Script e Gemini
+        await fetch(WEB_APP_URL, {
+            method: "POST",
+            body: JSON.stringify({ testo: testo }) 
+        });
+        
+        area.value = "";
+        showToast("✅ Gemini sta organizzando...");
+        
+        // Aspettiamo 2.5 secondi (il tempo di calcolo dell'AI) prima di ricaricare la lista
+        setTimeout(caricaDati, 2500); 
+    } catch (e) {
+        showToast("❌ Errore di connessione");
+    } finally {
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('btnText').style.display = 'block';
+        document.getElementById('btnSalva').disabled = false;
+    }
+}
 
         // ELIMINAZIONE
         async function eliminaNota(id, btn) {
